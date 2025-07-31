@@ -77,6 +77,8 @@ Target Distribution: 78.18% Good Loans (0), 21.82% Bad Loans (1)
 | loan_int_rate | 6 |
 
 ## 📈 Exploratory Data Analysis
+<img width="662" height="804" alt="image" src="https://github.com/user-attachments/assets/89bfe5be-93ee-4607-adbf-06f95f3bfb58" />
+
 
 ### Loan Status Distribution
 - **Good Loans (0)**: 25,465 applications (78.18%)
@@ -143,6 +145,9 @@ Stratified split maintaining target distribution
 
 ### Champion Model: Random Forest
 
+<img width="992" height="796" alt="image" src="https://github.com/user-attachments/assets/95aa93cd-e4cb-4a05-8893-fe7e3d11e4a9" />
+
+
 #### Hyperparameter Optimization
 - **Method**: Grid Search with 5-fold Cross-Validation
 - **Search Space**: 24 parameter combinations
@@ -201,6 +206,8 @@ weighted avg       0.94      0.93      0.93      6,517
 - **Risk Concentration**: High-risk segment represents 23.8% of total portfolio value
 
 ## 🔍 Feature Importance Analysis
+<img width="882" height="585" alt="image" src="https://github.com/user-attachments/assets/f3a9f96c-47a2-4f86-a1d4-6e04f6d2b804" />
+
 
 ### Top 15 Critical Risk Factors
 
@@ -307,174 +314,8 @@ weighted avg       0.94      0.93      0.93      6,517
 - **Business Impact**: Default rate deviation > 10% from expected
 - **System Issues**: Processing time > SLA thresholds
 
-## 🔧 Technical Implementation
 
-### Model Architecture
-```python
-Pipeline Components:
-├── Preprocessor
-│   ├── Missing Value Imputation
-│   ├── Outlier Treatment
-│   └── Feature Scaling
-├── Feature Engineering
-│   ├── Ratio Calculations
-│   ├── Risk Score Computation
-│   └── Categorical Encoding
-└── Classifier (Random Forest)
-    ├── 200 Estimators
-    ├── Unlimited Depth
-    └── Optimized Split Parameters
-```
 
-### Production Deployment
-- **Model Format**: Serialized pickle file (credit_risk_model.pkl)
-- **Metadata**: Configuration and performance metrics (model_metadata.pkl)
-- **API Integration**: RESTful service for real-time predictions
-- **Batch Processing**: Scheduled portfolio assessment capabilities
-
-### Performance Specifications
-- **Prediction Time**: < 100ms per application
-- **Batch Processing**: 10,000+ applications per minute
-- **Memory Usage**: < 500MB for loaded model
-- **Scalability**: Horizontal scaling supported
-
-## 📁 Project Deliverables
-
-### Code Structure
-```
-credit-risk-management/
-├── data/
-│   ├── raw_data.csv
-│   ├── processed_data.csv
-│   └── feature_engineered_data.csv
-├── models/
-│   ├── credit_risk_model.pkl
-│   ├── model_metadata.pkl
-│   └── preprocessing_pipeline.pkl
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_feature_engineering.ipynb
-│   ├── 03_model_development.ipynb
-│   └── 04_model_evaluation.ipynb
-├── src/
-│   ├── data_preprocessing.py
-│   ├── feature_engineering.py
-│   ├── model_training.py
-│   ├── model_evaluation.py
-│   └── prediction_service.py
-├── visualizations/
-│   ├── eda_plots/
-│   ├── model_performance/
-│   └── business_insights/
-├── docs/
-│   ├── technical_documentation.md
-│   ├── business_requirements.md
-│   └── deployment_guide.md
-└── README.md
-```
-
-### Generated Artifacts
-- **Trained Model Pipeline**: Production-ready ML model
-- **Comprehensive Visualizations**: 15+ analytical plots and charts
-- **Performance Reports**: Detailed model evaluation metrics
-- **Business Impact Analysis**: Financial and risk assessments
-- **Documentation**: Technical and business user guides
-
-## 🚀 Getting Started
-
-### Prerequisites
-```bash
-# Core dependencies
-pip install pandas==1.5.3
-pip install numpy==1.24.3
-pip install scikit-learn==1.3.0
-pip install matplotlib==3.7.1
-pip install seaborn==0.12.2
-pip install joblib==1.2.0
-
-# Optional dependencies
-pip install plotly==5.14.1  # Interactive visualizations
-pip install shap==0.41.0    # Model explainability
-```
-
-### Quick Start
-```python
-import joblib
-import pandas as pd
-import numpy as np
-
-# Load the trained model
-model = joblib.load('models/credit_risk_model.pkl')
-
-# Sample prediction
-sample_data = {
-    'person_age': 25,
-    'person_income': 45000,
-    'person_home_ownership': 'RENT',
-    'person_emp_length': 3.0,
-    'loan_intent': 'PERSONAL',
-    'loan_grade': 'C',
-    'loan_amnt': 15000,
-    'loan_int_rate': 12.5,
-    'loan_percent_income': 0.33,
-    'cb_person_default_on_file': 'N',
-    'cb_person_cred_hist_length': 4
-}
-
-# Make prediction
-sample_df = pd.DataFrame([sample_data])
-risk_probability = model.predict_proba(sample_df)[0][1]
-risk_category = classify_risk_level(risk_probability)
-
-print(f"Default Probability: {risk_probability:.2%}")
-print(f"Risk Category: {risk_category}")
-```
-
-### Model Integration Example
-```python
-def assess_loan_application(application_data):
-    """
-    Assess loan application and provide risk-based decision
-    """
-    # Preprocess application data
-    processed_data = preprocess_application(application_data)
-    
-    # Get risk prediction
-    risk_prob = model.predict_proba(processed_data)[0][1]
-    
-    # Business logic for decision
-    if risk_prob <= 0.15:
-        decision = "APPROVE"
-        risk_category = "Low Risk"
-    elif risk_prob <= 0.35:
-        decision = "APPROVE_WITH_CONDITIONS"
-        risk_category = "Medium Risk"
-    else:
-        decision = "REJECT"
-        risk_category = "High Risk"
-    
-    return {
-        'decision': decision,
-        'risk_probability': risk_prob,
-        'risk_category': risk_category,
-        'recommended_rate': calculate_risk_based_rate(risk_prob)
-    }
-```
-
-## 📋 Validation Results
-
-### Model Validation Summary
-- **Statistical Validation**: All features show statistical significance
-- **Business Validation**: $11.5M+ demonstrated net benefit
-- **Technical Validation**: 93.1% AUC with stable cross-validation
-- **Regulatory Validation**: Explainable model with audit trail
-
-### Stress Testing Results
-- **Economic Downturn Scenario**: Model maintains 89% AUC under stress
-- **Portfolio Drift**: Stable performance across different time periods
-- **Data Quality Issues**: Robust to missing values and outliers
-
-## 🏆 Project Achievements
 
 ### Technical Excellence
 ✅ **Advanced Feature Engineering**: 6 high-impact engineered features  
@@ -488,27 +329,7 @@ def assess_loan_application(application_data):
 ✅ **Operational Efficiency**: Automated decision-making capability  
 ✅ **Strategic Insights**: Data-driven lending recommendations  
 
-### Innovation & Best Practices
-✅ **Explainable AI**: Feature importance and model interpretability  
-✅ **Robust Pipeline**: End-to-end ML workflow with monitoring  
-✅ **Business Intelligence**: Risk segmentation and portfolio analysis  
-✅ **Regulatory Compliance**: Governance framework and documentation  
 
-## 📞 Contact & Support
-
-### Project Team
-- **Data Science Lead**: Model development and validation
-- **Business Analyst**: Requirements and impact analysis  
-- **ML Engineer**: Production deployment and monitoring
-- **Risk Management**: Business logic and compliance
-
-### Documentation Resources
-- **Technical Documentation**: Detailed implementation guide
-- **Business User Guide**: Non-technical usage instructions
-- **API Documentation**: Integration specifications
-- **Troubleshooting Guide**: Common issues and solutions
-
----
 
 **Project Status**: ✅ Production Ready  
 **Model Version**: 1.0  
